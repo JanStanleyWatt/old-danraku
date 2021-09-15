@@ -1,0 +1,41 @@
+{
+    "name": "whojinn/danraku",
+    
+    "authors": [
+        {
+            "name": "whojinn",
+            "email": "whojin.message@gmail.com"
+        }
+    ],
+    
+    "keywords": ["commonmark"],
+    
+    "description": "League/commonmark extension for japanese danraku style.",
+    
+    "require": {
+        "league/commonmark":"^2.0",
+        "php": "8.0.*",
+        "ext-mbstring": "*"
+    },
+    
+    "license": "Apache-2.0",
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.1"
+    },
+    
+    "autoload": {
+        "psr-4": {
+            "Whojinn\\":"src/"
+        }
+      },
+      
+      "autoload-dev": {
+        "psr-4": {
+            "Whojinn\\Test\\":"test/"
+        }
+    },
+    
+    "suggest": {
+        "whojinn/sapphire":"League/commonmark extension for japanese furigana."
+    }
+}
