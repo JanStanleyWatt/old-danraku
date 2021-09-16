@@ -5,6 +5,7 @@ namespace Whojinn\Test;
 require __DIR__ . '/../vendor/autoload.php';
 
 use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
@@ -67,5 +68,13 @@ final class DanrakuTest extends TestCase
 
         // assertFileEquals($test_data["otehon"], $test_data["markdown"], "基本テストがうまくいかなかったでござる");
         assertEquals($test_data["otehon"], $test_data["markdown"], "基本テストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuAttribute(): void
+    {
+        $test_data = $this->testTemplate('attribute.md', 'attribute.html');
+        $this->environment->addExtension(new AttributesExtension());
+
+        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
     }
 }
