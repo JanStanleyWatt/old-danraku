@@ -38,7 +38,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
     private function setPattern(): string
     {
         // 基本形
-        $basic_pattern = '(<h[1-9]>)|(<li>)|(<ol>)|(<img (.*?)>)|(<th>)|(<td>)';
+        $basic_pattern = '(<h[1-9][>| (.*?>)])|(<li[>| (.*?>)])|(<ol[>| (.*?>)])|(<img (.*?)>)|(<th[>| (.*?>)])|(<td[>| (.*?>)])';
 
 
         // 設定の羅列
