@@ -26,9 +26,9 @@ use League\CommonMark\MarkdownConverter;
 use Whojinn\Danraku\DanrakuExtension;
 
 $config = [
-    // 'danraku' => [
-    //     'ignore_alphabet' => false, // trueにすると、行頭が英単語だった場合には全角スペースを入れなくなる
-    // ],
+    'danraku' => [
+        'ignore_alphabet' => false, // trueにすると、行頭が英単語だった場合には全角スペースを入れなくなる
+    ],
 ];
 
 $environment = new Environment($config);
