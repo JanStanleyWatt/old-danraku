@@ -35,10 +35,13 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
     const BOTTOM = ')';
     private $config;
 
+    /**
+     * 基本形 '^<(p|(p .*?))>(?!<img (.*?))'
+     * */
     private function setPattern(): string
     {
-        // 基本形 '^<(p|(p .*?))>(?!<img (.*?))'
-        $basic_pattern = '^<(p|(p .*?))>(?!<img (.*?))';
+
+        $basic_pattern = self::TOP . self::BASIC;
 
 
         // 設定の羅列
@@ -49,7 +52,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
             $basic_pattern .= '|([[:alpha:]]+?)';
         }
 
-        return $basic_pattern;
+        return $basic_pattern . self::BOTTOM;
     }
 
     public function setConfiguration(ConfigurationInterface $configuration): void
@@ -62,7 +65,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         $html_array = mb_split("\n", $event->getOutput()->getContent());
 
         $document = $event->getOutput()->getDocument();
-        $pattern = '^<(p|(p .*?))>(?!<img (.*?))';
+        $pattern = $this->setPattern();
 
         // バッファ
         $replaced = "";
