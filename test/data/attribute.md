@@ -4,15 +4,19 @@ AttributeExtensionテスト
 [AttributeExtensionについて](https://commonmark.thephpleague.com/2.0/extensions/attributes/)
 {#what-is-attr}
 
->かねてより血を、畏れたまえ
-{: title="password"}
+>普通の段落にも適応されるのだから引用にも当然適応される
+{: title="aikotoba"}
 
-`インラインコードブロック`
+`インラインコードブロックにも適応される`{contenteditable="false"}
 
-*イタリック*{style="color: brue"}
+*イタリックにも当然*{:.underline}
 
-**強調**{style="color: yellow"}
+**強調も言わずもかな**{style="color: yellow"}
 
-***イタリック＆強調***
+***イタリック＆強調はイタリックか強調かのいずれかだけ*{style="color: yellow"}**
 
-~~打消線~~(GitHub Flavored Markdown Extension)
+***さもないと、下の記述のように・・・**{:.underline}*
+
+***イタリックが二つ定義されるような不思議な挙動を起こす*{:.underline}*{style="color: yellow"}*
+
+~~使う人がいるかどうかはさておき~~{:datatime="2021-09-17"}打消線にも適応される

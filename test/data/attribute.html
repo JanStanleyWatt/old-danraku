@@ -1,10 +1,12 @@
 <p class="danraku">　AttributeExtensionテスト</p>
 <p id="what-is-attr">　<a href="https://commonmark.thephpleague.com/2.0/extensions/attributes/">AttributeExtensionについて</a></p>
-<blockquote title="password">
-<p>　かねてより血を、畏れたまえ</p>
+<blockquote title="aikotoba">
+<p>　普通の段落にも適応されるのだから引用にも当然適応される</p>
 </blockquote>
-<p>　<code>インラインコードブロック</code></p>
-<p>　<em style="color: brue">イタリック</em></p>
-<p>　<strong style="color: yellow">強調</strong></p>
-<p>　<em><strong>イタリック＆強調</strong></em></p>
-<p>　<del>打消線</del>(GitHub Flavored Markdown Extension)</p>
+<p>　<code contenteditable="false">インラインコードブロックにも適応される</code></p>
+<p>　<em class="underline">イタリックにも当然</em></p>
+<p>　<strong style="color: yellow">強調も言わずもかな</strong></p>
+<p>　<strong><em style="color: yellow">イタリック＆強調はイタリックか強調かのいずれかだけ</em></strong></p>
+<p>　<em><strong class="underline">さもないと、下の記述のように・・・</strong></em></p>
+<p>　<em><em style="color: yellow"><em class="underline">イタリックが二つ定義されるような不思議な挙動を起こす</em></em></em></p>
+<p>　<del datatime="2021-09-17">使う人がいるかどうかはさておき</del>打消線にも適応される</p>
