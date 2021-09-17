@@ -1,7 +1,9 @@
-# アルファベット無視機能
+# 英数字無視機能
 
-この機能を有効にすると、行頭がアルファベットの場合に拡張機能が全角スペースを挿入しなくなる。
+この機能を有効にすると、行頭が英数字の場合に拡張機能が全角スペースを挿入しなくなる。
 
 When this function is enabled, the extension won't insert double-byte space when the beginning of line is alphabetic.
 
 Always, つまりこの行が残り全部日本語だったとしても例外ではない。
+
+4行目に差し掛かったところで言うのもなんだが、数字も無視の対象に入る。

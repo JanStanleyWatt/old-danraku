@@ -53,7 +53,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
         // 以下、設定
         if ($ignore_alpha) {
-            $basic_pattern .= '|([[:alpha:]]+?)';
+            $basic_pattern .= '|([A-Za-z0-9]+?)';
         }
 
         return $basic_pattern . self::BOTTOM;

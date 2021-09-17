@@ -77,4 +77,17 @@ final class DanrakuTest extends TestCase
 
         assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
     }
+
+    final public function testDanrakuIgnoreAlphabet(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'ignore_alphabet' => true,
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet.html');
+
+        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+    }
 }
