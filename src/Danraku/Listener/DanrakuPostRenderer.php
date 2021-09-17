@@ -30,9 +30,13 @@ use League\Config\ConfigurationInterface;
  */
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
-    const TOP = '^<(p|(p .*?))>';
-    const BASIC = '(?!<img (.*?)';
-    const BOTTOM = ')';
+    private const TOP = '^<(p|(p .*?))>';
+    private const BASIC = '(?!<img (.*?)';
+    private const BOTTOM = ')';
+
+    private const FOOT_NOTE_BEGIN = 'class="footnote"';
+    private const FOOT_NOTE_END = '</li>';
+
     private $config;
 
     /**
@@ -62,22 +66,38 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
     public function postRender(DocumentRenderedEvent $event)
     {
+        // 文を改行ごとに分割する
         $html_array = mb_split("\n", $event->getOutput()->getContent());
 
         $document = $event->getOutput()->getDocument();
         $pattern = $this->setPattern();
+
+        // trueにすると、脚注には全角スペースを入れない
+        $ignore_footnote = $this->config->get('danraku/ignore_footnote');
+        $footnote_flag = false;
 
         // バッファ
         $replaced = "";
 
         // 置換したコードをバッファに追加
         foreach ($html_array as $html) {
-            if (mb_ereg($pattern, $html, $match)) {
+
+            // 基本的な置換。
+            if (!$footnote_flag && mb_ereg($pattern, $html, $match)) {
                 $replaced .= mb_ereg_replace($pattern, $match[0] . "　", $html);
             } else {
                 $replaced .= $html;
             }
 
+            // 脚注があったときにはfootnote_flagを立てる(</p>が来たら倒す)
+            if ($ignore_footnote && mb_ereg(self::FOOT_NOTE_BEGIN, $html)) {
+                $footnote_flag = true;
+            }
+            if ($footnote_flag && mb_ereg(self::FOOT_NOTE_END, $html)) {
+                $footnote_flag = true;
+            }
+
+            // 行末に消した改行コードを加える
             if (!mb_ereg('^$', $html)) {
                 $replaced .= "\n";
             }
