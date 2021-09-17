@@ -30,15 +30,15 @@ use League\Config\ConfigurationInterface;
  */
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
-    const TOP = '<p>(?!(';
-    const BASIC = '(<h[1-9]>)|(<li>)|(<ol>)|(<img (.*?)>)|(<th>)|(<td>)';
-    const BOTTOM = '))';
+    const TOP = '^<(p|(p .*?))>';
+    const BASIC = '(?!<img (.*?)';
+    const BOTTOM = ')';
     private $config;
 
     private function setPattern(): string
     {
-        // 基本形
-        $basic_pattern = '(<h[1-9][>| (.*?>)])|(<li[>| (.*?>)])|(<ol[>| (.*?>)])|(<img (.*?)>)|(<th[>| (.*?>)])|(<td[>| (.*?>)])';
+        // 基本形 '^<(p|(p .*?))>(?!<img (.*?))'
+        $basic_pattern = '^<(p|(p .*?))>(?!<img (.*?))';
 
 
         // 設定の羅列
@@ -59,15 +59,27 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
     public function postRender(DocumentRenderedEvent $event)
     {
-        $html = $event->getOutput()->getContent();
+        $html_array = mb_split("\n", $event->getOutput()->getContent());
+
         $document = $event->getOutput()->getDocument();
-        $pattern = self::TOP . $this->setPattern() . self::BOTTOM;
+        $pattern = '^<(p|(p .*?))>(?!<img (.*?))';
 
         // バッファ
         $replaced = "";
 
         // 置換したコードをバッファに追加
-        $replaced .= mb_ereg_replace($pattern, "<p>　", $html);
+        foreach ($html_array as $html) {
+            if (mb_ereg($pattern, $html, $match)) {
+                $replaced .= mb_ereg_replace($pattern, $match[0] . "　", $html);
+            } else {
+                $replaced .= $html;
+            }
+
+            if (!mb_ereg('^$', $html)) {
+                $replaced .= "\n";
+            }
+        }
+
 
         // 最後にまとめて置換
         $event->replaceOutput(new RenderedContent($document, $replaced));

@@ -36,8 +36,8 @@ final class DanrakuTest extends TestCase
 
         $this->environment->addExtension(new CommonMarkCoreExtension())
             ->addExtension(new GithubFlavoredMarkdownExtension())
-            ->addExtension(new DanrakuExtension());
-
+            ->addExtension(new DanrakuExtension())
+            ->addExtension(new AttributesExtension());
 
         $converter = new MarkdownConverter($this->environment);
 
@@ -73,7 +73,7 @@ final class DanrakuTest extends TestCase
     final public function testDanrakuAttribute(): void
     {
         $test_data = $this->testTemplate('attribute.md', 'attribute.html');
-        $this->environment->addExtension(new AttributesExtension());
+
 
         assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
     }
