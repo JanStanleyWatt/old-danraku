@@ -7,6 +7,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 use PHPUnit\Framework\TestCase;
@@ -36,8 +37,10 @@ final class DanrakuTest extends TestCase
 
         $this->environment->addExtension(new CommonMarkCoreExtension())
             ->addExtension(new GithubFlavoredMarkdownExtension())
-            ->addExtension(new DanrakuExtension())
-            ->addExtension(new AttributesExtension());
+            ->addExtension(new AttributesExtension())
+            ->addExtension(new FootnoteExtension())
+            ->addExtension(new DanrakuExtension());
+
 
         $converter = new MarkdownConverter($this->environment);
 
@@ -54,6 +57,7 @@ final class DanrakuTest extends TestCase
         $this->config = [
             'danraku' => [
                 'ignore_alphabet' => false,
+                'ignore_footnote' => false,
             ]
         ];
 
@@ -89,5 +93,23 @@ final class DanrakuTest extends TestCase
         $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet.html');
 
         assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuOffIgnoreAlphabet(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'ignore_alphabet' => false,
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('ignore_alphabet_off.md', 'ignore_alphabet_off.html');
+
+        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuIgnoreFootnote(): void
+    {
+        $this->markTestIncomplete('このテストは、まだ実装されていません。');
     }
 }
