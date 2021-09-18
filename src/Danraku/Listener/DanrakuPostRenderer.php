@@ -34,8 +34,10 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
     private const BASIC = '(?!<img (.*?)';
     private const BOTTOM = ')';
 
-    private const FOOT_NOTE_BEGIN = 'class="footnote"';
+    private const FOOT_NOTE_BEGIN = '<li class="footnote"';
     private const FOOT_NOTE_END = '</li>';
+
+    private const KINSOKU_KAGIKAKKO = '「';
 
     private $config;
 

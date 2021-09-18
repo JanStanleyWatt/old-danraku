@@ -28,7 +28,6 @@ final class DanrakuTest extends TestCase
 
     /**
      * テストに必要な前処理を共通化させる。
-     * 特に断りが無い場合、導入する拡張機能はCommonMarkとGFMのみとする
      */
     private function testTemplate(string $markdown_path, string $otehon_path): array
     {
@@ -40,7 +39,6 @@ final class DanrakuTest extends TestCase
             ->addExtension(new AttributesExtension())
             ->addExtension(new FootnoteExtension())
             ->addExtension(new DanrakuExtension());
-
 
         $converter = new MarkdownConverter($this->environment);
 
@@ -110,6 +108,27 @@ final class DanrakuTest extends TestCase
 
     final public function testDanrakuIgnoreFootnote(): void
     {
-        $this->markTestIncomplete('このテストは、まだ実装されていません。');
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'ignore_footnote' => false,
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
+
+        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuOffIgnoreFootnote(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'ignore_footnote' => false,
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
+
+        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
     }
 }
