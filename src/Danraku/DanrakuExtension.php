@@ -38,7 +38,7 @@ class DanrakuExtension implements ConfigurableExtensionInterface
                 'ignore_alphabet' => Expect::bool()->default(false),
 
                 // trueにすると、脚注には全角スペースを入れなくなる
-                'ignore_footnote' => Expect::bool()->default(false),
+                'ignore_footnote' => Expect::bool()->default(true),
             ])
         );
     }

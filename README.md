@@ -26,7 +26,7 @@ echo $converter->convertToHtml($markdown);
 $config = [
     'danraku' => [
         'ignore_alphabet' => false, // trueにすると、行頭が英数字だった場合には全角スペースを入れなくなる
-        'ignore_footnote' => false, // trueにすると、脚注には全角スペースを入れなくなる
+        'ignore_footnote' => true, // falseにすると、脚注にも全角スペースを入れるようになる
     ],
 ];
 ```
