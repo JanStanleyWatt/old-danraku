@@ -31,13 +31,15 @@ use League\Config\ConfigurationInterface;
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
     private const TOP = '^<(p|(p .*?))>';
-    private const BASIC = '(?!<img (.*?)';
+    private const BASIC = '(?!<img |\p{Ps}';
     private const BOTTOM = ')';
+
+    private const ALPHA_BET = '|([A-Za-z0-9]+?)';
 
     private const FOOT_NOTE_BEGIN = '<li class="footnote"';
     private const FOOT_NOTE_END = '</li>';
 
-    private const KINSOKU_KAGIKAKKO = '「';
+    private const KINSOKU_DASH = '|\p{Pd}';
 
     private $config;
 
@@ -51,11 +53,17 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
 
         // 設定の羅列
+
         $ignore_alpha = $this->config->get('danraku/ignore_alphabet');
+        $ignore_dash = $this->config->get('danraku/ignore_dash');
 
         // 以下、設定
         if ($ignore_alpha) {
-            $basic_pattern .= '|([A-Za-z0-9]+?)';
+            $basic_pattern .= self::ALPHA_BET;
+        }
+
+        if ($ignore_dash) {
+            $basic_pattern .= self::KINSOKU_DASH;
         }
 
         return $basic_pattern . self::BOTTOM;

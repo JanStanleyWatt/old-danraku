@@ -27,8 +27,9 @@ use Whojinn\Danraku\DanrakuExtension;
 
 $config = [
     'danraku' => [
-        'ignore_alphabet' => false, // trueにすると、行頭が英数字だった場合には全角スペースを入れなくなる
-        'ignore_footnote' => true, // falseにすると、FootnoteExtension使用時に脚注にも全角スペースを入れるようになる
+        'ignore_alphabet' => false, // trueにすると、行頭が英数字だった場合には字下げをしなくなる
+        'ignore_footnote' => true, // trueにすると、FootnoteExtension使用時に脚注には字下げをしなくなる
+        'ignore_dash' => true, // trueにすると、全角ダッシュ（―）で字下げをしなくなる
     ],
 ];
 

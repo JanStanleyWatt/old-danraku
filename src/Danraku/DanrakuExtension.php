@@ -34,11 +34,14 @@ class DanrakuExtension implements ConfigurableExtensionInterface
         $builder->addSchema(
             'danraku',
             Expect::structure([
-                // trueにすると、行頭が英単語だった場合には全角スペースを入れなくなる
+                // trueにすると、行頭が英単語だった場合には字下げをしなくなる
                 'ignore_alphabet' => Expect::bool()->default(false),
 
-                // trueにすると、脚注には全角スペースを入れなくなる
+                // trueにすると、脚注では字下げをしなくなる
                 'ignore_footnote' => Expect::bool()->default(true),
+
+                // trueにすると、全角ダッシュ（―）で字下げをしなくなる
+                'ignore_dash' => Expect::bool()->default(true),
             ])
         );
     }
