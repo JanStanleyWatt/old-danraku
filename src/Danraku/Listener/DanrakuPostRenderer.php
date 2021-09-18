@@ -99,12 +99,12 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
                 $replaced .= $html;
             }
 
-            // 脚注があったときにはfootnote_flagを立てる(</p>が来たら倒す)
+            // 脚注があったときにはfootnote_flagを立てる(</li>が来たら倒す)
             if ($ignore_footnote && mb_ereg(self::FOOT_NOTE_BEGIN, $html)) {
                 $footnote_flag = true;
             }
             if ($footnote_flag && mb_ereg(self::FOOT_NOTE_END, $html)) {
-                $footnote_flag = true;
+                $footnote_flag = false;
             }
 
             // 行末に消した改行コードを加える
