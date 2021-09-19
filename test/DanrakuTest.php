@@ -14,11 +14,6 @@ use PHPUnit\Framework\TestCase;
 use Whojinn\Danraku\DanrakuExtension;
 
 use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertFileEquals;
-use function PHPUnit\Framework\assertFileExists;
-use function PHPUnit\Framework\assertSame;
-use function PHPUnit\Framework\assertStringContainsString;
-use function PHPUnit\Framework\assertStringEqualsFile;
 
 final class DanrakuTest extends TestCase
 {
