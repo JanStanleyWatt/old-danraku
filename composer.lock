@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49ea6bf763f52303eb7f6320f213d274",
+    "content-hash": "d3941d81ca0c786313b4fa48563c6317",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -1399,16 +1399,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0"
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
                 "shasum": ""
             },
             "require": {
@@ -1416,7 +1416,8 @@
                 "phpdocumentor/reflection-common": "^2.0"
             },
             "require-dev": {
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "psalm/phar": "^4.8"
             },
             "type": "library",
             "extra": {
@@ -1442,9 +1443,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.4.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.5.0"
             },
-            "time": "2020-09-17T18:55:26+00:00"
+            "time": "2021-09-17T15:28:14+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -4520,6 +4521,63 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "whojinn/sapphire",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whojinn/sapphire.git",
+                "reference": "4842b0948e2850d0b98f2ce53ed367859886a9e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whojinn/sapphire/zipball/4842b0948e2850d0b98f2ce53ed367859886a9e2",
+                "reference": "4842b0948e2850d0b98f2ce53ed367859886a9e2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "league/commonmark": "2.*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.1",
+                "noi/parsedown-newline": "*",
+                "noi/parsedown-rubytext": "*",
+                "phpunit/phpunit": "*"
+            },
+            "suggest": {
+                "whojinn/danraku": "League/commonmark extension for japanese danraku style."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Whojinn\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "whojinn",
+                    "email": "whojin.message@gmail.com"
+                }
+            ],
+            "description": "League/commonmark extension for japanese furigana.",
+            "keywords": [
+                "commonmark",
+                "extension",
+                "markdown",
+                "md"
+            ],
+            "support": {
+                "issues": "https://github.com/whojinn/sapphire/issues",
+                "source": "https://github.com/whojinn/sapphire/tree/2.0.2"
+            },
+            "time": "2021-09-16T09:54:41+00:00"
         }
     ],
     "aliases": [],
