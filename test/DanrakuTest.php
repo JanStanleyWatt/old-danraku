@@ -90,7 +90,7 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+        assertEquals($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オン」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuOffIgnoreAlphabet(): void
@@ -103,7 +103,7 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_alphabet_off.md', 'ignore_alphabet_off.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+        assertEquals($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オフ」のテストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuIgnoreFootnote(): void
@@ -116,7 +116,7 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+        assertEquals($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オン」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuOffIgnoreFootnote(): void
@@ -129,13 +129,13 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+        assertEquals($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オフ」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuEscape(): void
     {
         $test_data = $this->testTemplate('escape.md', 'escape.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+        assertEquals($test_data["otehon"], $test_data["markdown"], "エスケープテストがうまくいかなかったでござる");
     }
 }
