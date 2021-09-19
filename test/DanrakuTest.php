@@ -131,4 +131,11 @@ final class DanrakuTest extends TestCase
 
         assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
     }
+
+    final public function testDanrakuEscape(): void
+    {
+        $test_data = $this->testTemplate('escape.md', 'escape.html');
+
+        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+    }
 }

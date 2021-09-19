@@ -31,7 +31,7 @@ use League\Config\ConfigurationInterface;
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
     private const TOP = '^<(p|(p .*?))>';
-    private const BASIC = '(?!<img |\p{Ps}';
+    private const BASIC = '(?!<img|\p{Ps}';
     private const BOTTOM = ')';
 
     private const ALPHA_BET = '|([A-Za-z0-9]+?)';
@@ -91,6 +91,13 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
         // 置換したコードをバッファに追加
         foreach ($html_array as $html) {
+
+            // エスケープがあったら処理を飛ばす
+            if (mb_ereg('^<p>(\\\)', $html)) {
+                $replaced .= mb_ereg_replace('^<p>(\\\)', '<p>', $html);
+                $replaced .= "\n";
+                continue;
+            }
 
             // 基本的な置換。
             if (!$footnote_flag && mb_ereg($pattern, $html, $match)) {
