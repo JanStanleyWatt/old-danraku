@@ -13,7 +13,7 @@ use League\CommonMark\MarkdownConverter;
 use PHPUnit\Framework\TestCase;
 use Whojinn\Danraku\DanrakuExtension;
 
-use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertStringEqualsFile;
 
 final class DanrakuTest extends TestCase
 {
@@ -40,8 +40,8 @@ final class DanrakuTest extends TestCase
         $test = $converter->convertToHtml(file_get_contents($template_path . $markdown_path));
 
         return [
-            "markdown" => $test,
-            "otehon" => file_get_contents($template_path . $otehon_path),
+            "markdown" => $test,                        //html化させたMarkdownテキスト
+            "otehon" => $template_path . $otehon_path,  //お手本ファイルのパス
         ];
     }
 
@@ -64,7 +64,7 @@ final class DanrakuTest extends TestCase
         $test_data = $this->testTemplate('paragraph.md', 'paragraph.html');
 
         // assertFileEquals($test_data["otehon"], $test_data["markdown"], "基本テストがうまくいかなかったでござる");
-        assertEquals($test_data["otehon"], $test_data["markdown"], "基本テストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "基本テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuAttribute(): void
@@ -72,7 +72,7 @@ final class DanrakuTest extends TestCase
         $test_data = $this->testTemplate('attribute.md', 'attribute.html');
 
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "属性テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuIgnoreAlphabet(): void
@@ -85,7 +85,7 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オン」テストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オン」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuOffIgnoreAlphabet(): void
@@ -98,7 +98,7 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_alphabet_off.md', 'ignore_alphabet_off.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オフ」のテストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オフ」のテストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuIgnoreFootnote(): void
@@ -111,7 +111,7 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オン」テストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オン」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuOffIgnoreFootnote(): void
@@ -124,13 +124,39 @@ final class DanrakuTest extends TestCase
 
         $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オフ」テストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オフ」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuEscape(): void
     {
         $test_data = $this->testTemplate('escape.md', 'escape.html');
 
-        assertEquals($test_data["otehon"], $test_data["markdown"], "エスケープテストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "エスケープテストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuIgnoreDash(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'ignore_dash' => true,
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('ignore_dash.md', 'ignore_dash.html');
+
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "ダッシュ無視機能「オン」テストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuOffIgnoreDash(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'ignore_dash' => false,
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('ignore_dash_off.md', 'ignore_dash_off.html');
+
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "ダッシュ無視機能「オン」テストがうまくいかなかったでござる");
     }
 }

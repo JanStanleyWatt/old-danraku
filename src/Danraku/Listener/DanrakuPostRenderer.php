@@ -40,6 +40,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
     private const FOOT_NOTE_END = '</li>';
 
     private const KINSOKU_DASH = '|\p{Pd}';
+    private const KINSOKU_KAKKO = '|\p{Ps}';
 
     private $config;
 
@@ -49,7 +50,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
     private function setPattern(): string
     {
 
-        $basic_pattern = self::TOP . self::BASIC;
+        $basic_pattern = self::TOP . self::BASIC . self::KINSOKU_KAKKO;
 
 
         // 設定の羅列
@@ -93,7 +94,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         foreach ($html_array as $html) {
 
             // エスケープがあったら処理を飛ばす
-            if (mb_ereg('^<p>(\\\)', $html)) {
+            if (mb_strpos($html, "\\") === 3) {
                 $replaced .= mb_ereg_replace('^<p>(\\\)', '<p>', $html);
                 $replaced .= "\n";
                 continue;
@@ -119,7 +120,6 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
                 $replaced .= "\n";
             }
         }
-
 
         // 最後にまとめて置換
         $event->replaceOutput(new RenderedContent($document, $replaced));
