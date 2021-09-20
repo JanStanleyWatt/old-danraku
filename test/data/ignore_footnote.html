@@ -1,5 +1,8 @@
+<h1>脚注内では字下げをしない機能</h1>
 <p>　脚注をつけるには、こうする<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" role="doc-noteref">1</a></sup>。簡単である一方問題があり、例えば脚注の解説部分<sup id="fnref:2"><a class="footnote-ref" href="#fn:2" role="doc-noteref">2</a></sup>にDanrakuExtensionが全角スペースを入れてしまうと見栄え等の問題が生じてしまうのだ。</p>
-<p>　そこで、この拡張機能にignore_footnoteフラグを設定できるようになった。これをtrueにすることで、脚注に余計な全角スペースが入ることもないはずだ。なお、規定ではtrueになっている。逆に脚注にも段落明けが必要と言う人がいたら<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" role="doc-noteref">3</a></sup>falseに設定すると良い</p>
+<p>　そこで、この拡張機能にignore_footnoteフラグを設定できるようになった。これをtrueにすることで、脚注に余計な全角スペースが入ることもないはずだ。なお、規定ではtrueになっている。逆に脚注にも段落明けが必要と言う人がいたら<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" role="doc-noteref">3</a></sup>falseに設定すると良い。なお、脚注内でもエスケープシーケンスは有効となっている<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" role="doc-noteref">4</a></sup>。</p>
 <div class="footnotes" role="doc-endnotes"><hr /><ol><li class="footnote" id="fn:1" role="doc-endnote"><p>ね、簡単でしょう？&nbsp;<a class="footnote-backref" rev="footnote" href="#fnref:1" role="doc-backlink">↩</a></p></li>
 <li class="footnote" id="fn:2" role="doc-endnote"><p>つまりここの部分の事&nbsp;<a class="footnote-backref" rev="footnote" href="#fnref:2" role="doc-backlink">↩</a></p></li>
-<li class="footnote" id="fn:3" role="doc-endnote"><p>本当にいるかどうかはさておき&nbsp;<a class="footnote-backref" rev="footnote" href="#fnref:3" role="doc-backlink">↩</a></p></li></ol></div>
+<li class="footnote" id="fn:3" role="doc-endnote"><p><ruby>本当<rt>ほんとう</rt></ruby>にいるかどうかはさておき&nbsp;<a class="footnote-backref" rev="footnote" href="#fnref:3" role="doc-backlink">↩</a></p></li>
+<li class="footnote" id="fn:4" role="doc-endnote"><p>\つまり、この行だけはたとえignore_footnoteフラグがfalseになっていても<br />
+字下げをしていない&nbsp;<a class="footnote-backref" rev="footnote" href="#fnref:4" role="doc-backlink">↩</a></p></li></ol></div>
