@@ -31,13 +31,13 @@ use League\Config\ConfigurationInterface;
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
     private const TOP = '^<(p|(p .*?))>';
-    private const BASIC = '(?!<img|\p{Ps}';
+    private const BASIC = '(?!<img|\p{Ps}|(\\\)';
     private const BOTTOM = ')';
 
     private const ALPHA_BET = '|([A-Za-z0-9]+?)';
 
-    private const FOOT_NOTE_BEGIN = '<li class="footnote"';
-    private const FOOT_NOTE_END = '</li>';
+    private const FOOT_NOTE_BEGIN = '<div class="footnotes">';
+    private const FOOT_NOTE_END = '</div>';
 
     private const KINSOKU_DASH = '|\p{Pd}';
     private const KINSOKU_KAKKO = '|\p{Ps}';
@@ -54,7 +54,6 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
 
         // 設定の羅列
-
         $ignore_alpha = $this->config->get('danraku/ignore_alphabet');
         $ignore_dash = $this->config->get('danraku/ignore_dash');
 
@@ -93,9 +92,15 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         // 置換したコードをバッファに追加
         foreach ($html_array as $html) {
 
+            //既に字下げ済みの行は処理を飛ばす
+            if (mb_ereg(self::TOP . '　', $html, $match)) {
+                $replaced .= $html . "\n";
+                continue;
+            }
+
             // エスケープがあったら処理を飛ばす
-            if (mb_strpos($html, "\\") === 3) {
-                $replaced .= mb_ereg_replace('^<p>(\\\)', '<p>', $html);
+            if (mb_ereg(self::TOP . '(?=\\\)', $html, $match)) {
+                $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
                 $replaced .= "\n";
                 continue;
             }
@@ -108,15 +113,15 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
             }
 
             // 脚注があったときにはfootnote_flagを立てる(</li>が来たら倒す)
-            if ($ignore_footnote && mb_ereg(self::FOOT_NOTE_BEGIN, $html)) {
+            if ($ignore_footnote && !$footnote_flag && (mb_strpos(self::FOOT_NOTE_BEGIN, $html) != false)) {
                 $footnote_flag = true;
             }
-            if ($footnote_flag && mb_ereg(self::FOOT_NOTE_END, $html)) {
+            if ($footnote_flag && $footnote_flag && (mb_strpos(self::FOOT_NOTE_END, $html) != false)) {
                 $footnote_flag = false;
             }
 
             // 行末に消した改行コードを加える
-            if (!mb_ereg('^$', $html)) {
+            if (mb_strlen($html) > 0) {
                 $replaced .= "\n";
             }
         }

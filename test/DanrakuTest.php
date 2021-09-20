@@ -159,4 +159,11 @@ final class DanrakuTest extends TestCase
 
         assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "ダッシュ無視機能「オン」テストがうまくいかなかったでござる");
     }
+
+    final public function testDanrakuIgnoreBrackets(): void
+    {
+        $test_data = $this->testTemplate('ignore_brackets.md', 'ignore_brackets.html');
+
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "開き括弧無視機能テストがうまくいかなかったでござる");
+    }
 }
