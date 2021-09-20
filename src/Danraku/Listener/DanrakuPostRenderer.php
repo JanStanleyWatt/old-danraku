@@ -104,7 +104,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
             }
 
             // 既に字下げ済みの行は処理を飛ばす
-            if (mb_ereg(self::TOP . '　', $html, $match)) {
+            if (mb_strpos($html, self::TOP . '　') !== false) {
                 $replaced .= $html . "\n";
                 continue;
             }
