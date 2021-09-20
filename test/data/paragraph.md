@@ -15,6 +15,8 @@
 
 ~~打消線~~(GitHub Flavored Markdown Extension)
 
+｜振り仮名《ルビもじ》([独自拡張](https://github.com/whojinn/sapphire))
+
 -------------------------------------------------------------  
 段落明けが**反映されない**文法は以下の通り。
 
