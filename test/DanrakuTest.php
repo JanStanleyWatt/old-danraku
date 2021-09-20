@@ -12,6 +12,7 @@ use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 use PHPUnit\Framework\TestCase;
 use Whojinn\Danraku\DanrakuExtension;
+use Whojinn\Sapphire\SapphireExtension;
 
 use function PHPUnit\Framework\assertStringEqualsFile;
 
@@ -33,6 +34,7 @@ final class DanrakuTest extends TestCase
             ->addExtension(new GithubFlavoredMarkdownExtension())
             ->addExtension(new AttributesExtension())
             ->addExtension(new FootnoteExtension())
+            ->addExtension(new SapphireExtension())
             ->addExtension(new DanrakuExtension());
 
         $converter = new MarkdownConverter($this->environment);
@@ -50,7 +52,8 @@ final class DanrakuTest extends TestCase
         $this->config = [
             'danraku' => [
                 'ignore_alphabet' => false,
-                'ignore_footnote' => false,
+                'ignore_footnote' => true,
+                'ignore_dash' => true,
             ]
         ];
 
@@ -96,16 +99,19 @@ final class DanrakuTest extends TestCase
             ]
         ]);
 
-        $test_data = $this->testTemplate('ignore_alphabet_off.md', 'ignore_alphabet_off.html');
+        $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet_off.html');
 
         assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "アルファベット無視機能「オフ」のテストがうまくいかなかったでござる");
     }
 
+    /**
+     * @test 脚注無視機能「オン」テスト
+     */
     final public function testDanrakuIgnoreFootnote(): void
     {
         $this->environment->mergeConfig([
             'danraku' => [
-                'ignore_footnote' => false,
+                'ignore_footnote' => true,
             ]
         ]);
 
@@ -114,6 +120,9 @@ final class DanrakuTest extends TestCase
         assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オン」テストがうまくいかなかったでござる");
     }
 
+    /**
+     * @test 脚注無視機能「オフ」テスト
+     */
     final public function testDanrakuOffIgnoreFootnote(): void
     {
         $this->environment->mergeConfig([
@@ -122,7 +131,7 @@ final class DanrakuTest extends TestCase
             ]
         ]);
 
-        $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
+        $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote_off.html');
 
         assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "脚注無視機能「オフ」テストがうまくいかなかったでござる");
     }
@@ -155,9 +164,9 @@ final class DanrakuTest extends TestCase
             ]
         ]);
 
-        $test_data = $this->testTemplate('ignore_dash_off.md', 'ignore_dash_off.html');
+        $test_data = $this->testTemplate('ignore_dash.md', 'ignore_dash_off.html');
 
-        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "ダッシュ無視機能「オン」テストがうまくいかなかったでござる");
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "ダッシュ無視機能「オフ」テストがうまくいかなかったでござる");
     }
 
     final public function testDanrakuIgnoreBrackets(): void

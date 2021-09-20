@@ -30,14 +30,14 @@ use League\Config\ConfigurationInterface;
  */
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
-    private const TOP = '^<(p|(p .*?))>';
+    private const TOP = '(.*?)<(p|(p .*?))>';
     private const BASIC = '(?!<img|\p{Ps}|(\\\)';
     private const BOTTOM = ')';
 
     private const ALPHA_BET = '|([A-Za-z0-9]+?)';
 
-    private const FOOT_NOTE_BEGIN = '<div class="footnotes">';
-    private const FOOT_NOTE_END = '</div>';
+    private const FOOT_NOTE_BEGIN = '<li class="footnote"';
+    private const FOOT_NOTE_END = '</li>';
 
     private const KINSOKU_DASH = '|\p{Pd}';
     private const KINSOKU_KAKKO = '|\p{Ps}';
@@ -52,17 +52,11 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
         $basic_pattern = self::TOP . self::BASIC . self::KINSOKU_KAKKO;
 
-
-        // 設定の羅列
-        $ignore_alpha = $this->config->get('danraku/ignore_alphabet');
-        $ignore_dash = $this->config->get('danraku/ignore_dash');
-
         // 以下、設定
-        if ($ignore_alpha) {
+        if ($this->config->get('danraku/ignore_alphabet')) {
             $basic_pattern .= self::ALPHA_BET;
         }
-
-        if ($ignore_dash) {
+        if ($this->config->get('danraku/ignore_dash')) {
             $basic_pattern .= self::KINSOKU_DASH;
         }
 
@@ -74,6 +68,7 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         $this->config = $configuration;
     }
 
+
     public function postRender(DocumentRenderedEvent $event)
     {
         // 文を改行ごとに分割する
@@ -82,9 +77,14 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         $document = $event->getOutput()->getDocument();
         $pattern = $this->setPattern();
 
-        // trueにすると、脚注には全角スペースを入れない
+        // 設定一覧
+        // $ignore_alpha = $this->config->get('danraku/ignore_alphabet');
         $ignore_footnote = $this->config->get('danraku/ignore_footnote');
+        $ignore_dash = $this->config->get('danraku/ignore_dash');
+
+        // ignore_~で設定された文字が行中または行頭にあるかどうか
         $footnote_flag = false;
+        $dash_flag = false;
 
         // バッファ
         $replaced = "";
@@ -92,18 +92,48 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         // 置換したコードをバッファに追加
         foreach ($html_array as $html) {
 
-            //既に字下げ済みの行は処理を飛ばす
+
+            // 脚注があったときにはfootnote_flagを立てる
+            if ($ignore_footnote && !$footnote_flag && (mb_strpos($html, self::FOOT_NOTE_BEGIN) !== false)) {
+                $footnote_flag = true;
+            }
+
+            // 行頭にダッシュ記号があったときにはdash_flagを立てる
+            if ($ignore_dash && (mb_ereg(self::TOP . '((\\\)\p{Pd})', $html))) {
+                $dash_flag = true;
+            }
+
+            // 既に字下げ済みの行は処理を飛ばす
             if (mb_ereg(self::TOP . '　', $html, $match)) {
                 $replaced .= $html . "\n";
                 continue;
             }
 
             // エスケープがあったら処理を飛ばす
+            // ignoreすべき記号がある場合には、エスケープ処理自体を行わない
             if (mb_ereg(self::TOP . '(?=\\\)', $html, $match)) {
-                $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
-                $replaced .= "\n";
-                continue;
+
+                // ignoreすべき記号が無い場合
+                if (!$footnote_flag && !$dash_flag) {
+                    $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
+                    $replaced .= "\n";
+                    continue;
+                } else {
+                    // ignore_footnoteがオフの状態で脚注が来たとき
+                    if (!$ignore_footnote && $footnote_flag) {
+                        $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
+                        $replaced .= "\n";
+                        continue;
+                    }
+                    // ignore_dashがオフの状態でダッシュが行頭に来た時
+                    if (!$ignore_dash && $dash_flag) {
+                        $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
+                        $replaced .= "\n";
+                        continue;
+                    }
+                }
             }
+
 
             // 基本的な置換。
             if (!$footnote_flag && mb_ereg($pattern, $html, $match)) {
@@ -112,13 +142,13 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
                 $replaced .= $html;
             }
 
-            // 脚注があったときにはfootnote_flagを立てる(</li>が来たら倒す)
-            if ($ignore_footnote && !$footnote_flag && (mb_strpos(self::FOOT_NOTE_BEGIN, $html) != false)) {
-                $footnote_flag = true;
-            }
-            if ($footnote_flag && $footnote_flag && (mb_strpos(self::FOOT_NOTE_END, $html) != false)) {
+            // 脚注の終わりが行内にあったらfootnote_flagを倒す
+            if ($footnote_flag && (mb_strpos($html, self::FOOT_NOTE_END) !== false)) {
                 $footnote_flag = false;
             }
+
+            // dash_flagは行頭にあるときのみ立てるので、ここで問答無用に倒す
+            $dash_flag = false;
 
             // 行末に消した改行コードを加える
             if (mb_strlen($html) > 0) {
