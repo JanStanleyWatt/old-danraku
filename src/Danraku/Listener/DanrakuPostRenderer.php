@@ -30,7 +30,7 @@ use League\Config\ConfigurationInterface;
  */
 class DanrakuPostRenderer implements ConfigurationAwareInterface
 {
-    private const TOP = '(.*?)<(p|(p .*?))>';
+    private const TOP = '^(.*?)<(p|(p .*?))>';
     private const BASIC = '(?!<img|\p{Ps}|(\\\)';
     private const BOTTOM = ')';
 
@@ -92,7 +92,6 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         // 置換したコードをバッファに追加
         foreach ($html_array as $html) {
 
-
             // 脚注があったときにはfootnote_flagを立てる
             if ($ignore_footnote && !$footnote_flag && (mb_strpos($html, self::FOOT_NOTE_BEGIN) !== false)) {
                 $footnote_flag = true;
@@ -109,28 +108,17 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
                 continue;
             }
 
-            // エスケープがあったら処理を飛ばす
-            // ignoreすべき記号がある場合には、エスケープ処理自体を行わない
+            // ignoreしない記号のエスケープ処理を行う
             if (mb_ereg(self::TOP . '(?=\\\)', $html, $match)) {
 
-                // ignoreすべき記号が無い場合
-                if (!$footnote_flag && !$dash_flag) {
+                $escape_footnote = (!$ignore_footnote && $footnote_flag);
+                $escape_dash = (!$ignore_dash && $dash_flag);
+                $escape_other = (!$footnote_flag && !$dash_flag);
+
+                if ($escape_other || $escape_dash || $escape_footnote) {
                     $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
                     $replaced .= "\n";
                     continue;
-                } else {
-                    // ignore_footnoteがオフの状態で脚注が来たとき
-                    if (!$ignore_footnote && $footnote_flag) {
-                        $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
-                        $replaced .= "\n";
-                        continue;
-                    }
-                    // ignore_dashがオフの状態でダッシュが行頭に来た時
-                    if (!$ignore_dash && $dash_flag) {
-                        $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
-                        $replaced .= "\n";
-                        continue;
-                    }
                 }
             }
 

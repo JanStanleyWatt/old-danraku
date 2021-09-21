@@ -51,5 +51,6 @@ class DanrakuExtension implements ConfigurableExtensionInterface
         // Danraku独自のコード
         $environment
             ->addEventListener(DocumentRenderedEvent::class, [new DanrakuPostRenderer(), 'postRender']);
+        // ->addEventListener(DocumentPreRenderEvent::class, [new DanrakuPreRenderer(), 'preRender']);
     }
 }
