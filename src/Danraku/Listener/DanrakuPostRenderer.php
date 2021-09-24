@@ -125,7 +125,8 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
 
             // 基本的な置換。
             if (!$footnote_flag && mb_ereg($pattern, $html, $match)) {
-                $replaced .= mb_ereg_replace($pattern, $match[0] . "　", $html);
+                // $replaced .= mb_ereg_replace($pattern, $match[0] . "　", $html);
+                $replaced .= str_replace($match[0], $match[0] . "　", $html);
             } else {
                 $replaced .= $html;
             }
