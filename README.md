@@ -28,7 +28,7 @@ $config = [
         'ignore_alphabet' => false,     // trueにすると、行頭が英数字だった場合には字下げをしなくなる
         'ignore_footnote' => true,      // trueにすると、FootnoteExtension使用時に脚注には字下げをしなくなる
         'ignore_dash' => true,          // trueにすると、全角ダッシュ（―）、ハイフンで字下げをしなくなる
-        'spacing_yakumono' => false,    // trueにすると、「？」と「！」の前に全角スペースを空けるようになる「閉じ括弧の直前を除く」
+        'spacing_yakumono' => true,     // trueにすると、「？」と「！」の前に全角スペースを空けるようになる「閉じ括弧の直前を除く」
     ],
 ];
 ```
