@@ -21,13 +21,12 @@ declare(strict_types=1);
 namespace Whojinn\Danraku;
 
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
-use League\CommonMark\Event\DocumentPreRenderEvent;
 use League\CommonMark\Event\DocumentRenderedEvent;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
 use Nette\Schema\Expect;
-use Whojinn\Danraku\Listener\DanrakuPostParser;
 use Whojinn\Danraku\Listener\DanrakuPostRenderer;
+use Whojinn\Danraku\Parser\YakumonoParser;
 
 class DanrakuExtension implements ConfigurableExtensionInterface
 {
@@ -46,7 +45,7 @@ class DanrakuExtension implements ConfigurableExtensionInterface
                 'ignore_dash' => Expect::bool()->default(true),
 
                 // trueにすると、「？」と「！」の前に全角スペースを空けるようになる「閉じ括弧の直前を除く」
-                'spacing_yakumono' => Expect::bool()->default(false),
+                'spacing_yakumono' => Expect::bool()->default(true),
             ])
 
 
@@ -58,6 +57,6 @@ class DanrakuExtension implements ConfigurableExtensionInterface
         // Danraku独自のコード
         $environment
             ->addEventListener(DocumentRenderedEvent::class, [new DanrakuPostRenderer(), 'postRender'])
-            ->addEventListener(DocumentPersedEvent::class, [new DanrakuPostParser(), 'postParse']);
+            ->addInlineParser(new YakumonoParser(), 0);
     }
 }
