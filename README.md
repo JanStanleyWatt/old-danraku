@@ -1,5 +1,5 @@
 # Danraku
-自動で段落の頭に全角スペースを入れてくれる[League/CommonMark](https://commonmark.thephpleague.com/)拡張機能。
+自動で段落の頭に全角スペースを入れてくれたり、区切り約物の直後に全角スペースを入れてくれる[League/CommonMark](https://commonmark.thephpleague.com/)拡張機能。
 
 ## インストール方法
 `$ composer require whojinn/danraku`
