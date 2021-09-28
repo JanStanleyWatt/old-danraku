@@ -175,4 +175,30 @@ final class DanrakuTest extends TestCase
 
         assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "開き括弧無視機能テストがうまくいかなかったでござる");
     }
+
+    final public function testDanrakuSpacingYakumono(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'spacing_yakumono' => true
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('spacing_yakumono.md', 'spacing_yakumono.html');
+
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "区切り約物スペース挿入「オン」テストがうまくいかなかったでござる");
+    }
+
+    final public function testDanrakuOffSpacingYakumono(): void
+    {
+        $this->environment->mergeConfig([
+            'danraku' => [
+                'spacing_yakumono' => false
+            ]
+        ]);
+
+        $test_data = $this->testTemplate('spacing_yakumono.md', 'spacing_yakumono_off.html');
+
+        assertStringEqualsFile($test_data["otehon"], $test_data["markdown"], "区切り約物スペース挿入「オフ」テストがうまくいかなかったでござる");
+    }
 }
