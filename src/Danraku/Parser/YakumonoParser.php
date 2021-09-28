@@ -52,9 +52,10 @@ class YakumonoParser implements InlineParserInterface, ConfigurationAwareInterfa
         $now_char = $cursor->getCurrentCharacter();
         $next_char = $cursor->peek();
         $is_null = ($now_char === null || $next_char === null);
+        $is_bang = ($now_char === '!' && $next_char === '[');
 
         // 飛ばす必要が無い、または飛ばせない場合はfalse
-        if ($is_null || mb_ereg('\p{Pe}|\n|\s', $next_char)) {
+        if ($is_null || $is_bang || mb_ereg('\p{Pe}|\n|\s', $next_char)) {
             return false;
         }
 

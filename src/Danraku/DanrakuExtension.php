@@ -57,6 +57,8 @@ class DanrakuExtension implements ConfigurableExtensionInterface
         // Danraku独自のコード
         $environment
             ->addEventListener(DocumentRenderedEvent::class, [new DanrakuPostRenderer(), 'postRender'])
+
+            // 優先順位は10以内にすること(BangParserという「!」にフックするパーサーの優先順位が10だから)
             ->addInlineParser(new YakumonoParser(), 0);
     }
 }
