@@ -39,5 +39,9 @@
     
     "suggest": {
         "whojinn/sapphire":"League/commonmark extension for japanese furigana."
+    },
+    
+    "scripts": {
+        "test": "vendor/bin/phpunit test/DanrakuTest.php"
     }
 }
