@@ -15,7 +15,9 @@
     "require": {
         "league/commonmark":"^2.0",
         "php": "^7.4 || ^8.0",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "psr/cache": "1.0.1",
+        "psr/log": "1.1.4"
     },
     
     "license": "Apache-2.0",
