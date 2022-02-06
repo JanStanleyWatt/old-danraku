@@ -13,8 +13,8 @@
     "description": "League/commonmark extension for japanese danraku style.",
     
     "require": {
-        "league/commonmark":"^2.0",
-        "php": "^7.4 || ^8.0",
+        "league/commonmark":"^2.2",
+        "php": "^8.0 || ^8.1",
         "ext-mbstring": "*",
         "psr/cache": "^1.0.1",
         "psr/log": "^1.1.4"
