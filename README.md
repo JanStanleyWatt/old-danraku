@@ -23,7 +23,7 @@ $converter = new MarkdownConverter($environment);
 $markdown = 'この拡張機能は実によい・・・まさに革命的だ';
 
 //<p>　この拡張機能は実によい・・・まさに革命的だ</p>
-echo $converter->convertToHtml($markdown);
+echo $converter->convert($markdown);
 ```
 
 ## 設定
