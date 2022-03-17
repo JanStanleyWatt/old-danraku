@@ -1,5 +1,4 @@
 <?php
-
 namespace Whojinn\Test;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -10,11 +9,11 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\Footnote\FootnoteExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
+use function PHPUnit\Framework\assertStringEqualsFile;
 use PHPUnit\Framework\TestCase;
 use Whojinn\Danraku\DanrakuExtension;
-use Whojinn\Sapphire\SapphireExtension;
 
-use function PHPUnit\Framework\assertStringEqualsFile;
+use Whojinn\Sapphire\SapphireExtension;
 
 final class DanrakuTest extends TestCase
 {
@@ -27,7 +26,6 @@ final class DanrakuTest extends TestCase
      */
     private function testTemplate(string $markdown_path, string $otehon_path): array
     {
-
         $template_path = __DIR__ . '/data/';
 
         $this->environment->addExtension(new CommonMarkCoreExtension())
@@ -39,7 +37,7 @@ final class DanrakuTest extends TestCase
 
         $converter = new MarkdownConverter($this->environment);
 
-        $test = $converter->convertToHtml(file_get_contents($template_path . $markdown_path));
+        $test = $converter->convert(file_get_contents($template_path . $markdown_path));
 
         return [
             "markdown" => $test,                        //html化させたMarkdownテキスト
@@ -54,7 +52,7 @@ final class DanrakuTest extends TestCase
                 'ignore_alphabet' => false,
                 'ignore_footnote' => true,
                 'ignore_dash' => true,
-            ]
+            ],
         ];
 
         clearstatcache();
@@ -83,7 +81,7 @@ final class DanrakuTest extends TestCase
         $this->environment->mergeConfig([
             'danraku' => [
                 'ignore_alphabet' => true,
-            ]
+            ],
         ]);
 
         $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet.html');
@@ -96,7 +94,7 @@ final class DanrakuTest extends TestCase
         $this->environment->mergeConfig([
             'danraku' => [
                 'ignore_alphabet' => false,
-            ]
+            ],
         ]);
 
         $test_data = $this->testTemplate('ignore_alphabet.md', 'ignore_alphabet_off.html');
@@ -112,7 +110,7 @@ final class DanrakuTest extends TestCase
         $this->environment->mergeConfig([
             'danraku' => [
                 'ignore_footnote' => true,
-            ]
+            ],
         ]);
 
         $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote.html');
@@ -128,7 +126,7 @@ final class DanrakuTest extends TestCase
         $this->environment->mergeConfig([
             'danraku' => [
                 'ignore_footnote' => false,
-            ]
+            ],
         ]);
 
         $test_data = $this->testTemplate('ignore_footnote.md', 'ignore_footnote_off.html');
@@ -148,7 +146,7 @@ final class DanrakuTest extends TestCase
         $this->environment->mergeConfig([
             'danraku' => [
                 'ignore_dash' => true,
-            ]
+            ],
         ]);
 
         $test_data = $this->testTemplate('ignore_dash.md', 'ignore_dash.html');
@@ -161,7 +159,7 @@ final class DanrakuTest extends TestCase
         $this->environment->mergeConfig([
             'danraku' => [
                 'ignore_dash' => false,
-            ]
+            ],
         ]);
 
         $test_data = $this->testTemplate('ignore_dash.md', 'ignore_dash_off.html');
@@ -180,8 +178,8 @@ final class DanrakuTest extends TestCase
     {
         $this->environment->mergeConfig([
             'danraku' => [
-                'spacing_yakumono' => true
-            ]
+                'spacing_yakumono' => true,
+            ],
         ]);
 
         $test_data = $this->testTemplate('spacing_yakumono.md', 'spacing_yakumono.html');
@@ -193,8 +191,8 @@ final class DanrakuTest extends TestCase
     {
         $this->environment->mergeConfig([
             'danraku' => [
-                'spacing_yakumono' => false
-            ]
+                'spacing_yakumono' => false,
+            ],
         ]);
 
         $test_data = $this->testTemplate('spacing_yakumono.md', 'spacing_yakumono_off.html');
