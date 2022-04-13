@@ -47,8 +47,6 @@ class DanrakuExtension implements ConfigurableExtensionInterface
                 // trueにすると、「？」と「！」の前に全角スペースを空けるようになる「閉じ括弧の直前を除く」
                 'spacing_yakumono' => Expect::bool()->default(true),
             ])
-
-
         );
     }
 

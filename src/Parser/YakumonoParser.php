@@ -51,8 +51,8 @@ class YakumonoParser implements InlineParserInterface, ConfigurationAwareInterfa
         $cursor = $inline_context->getCursor();
         $now_char = $cursor->getCurrentCharacter();
         $next_char = $cursor->peek();
-        $is_null = ($now_char === null || $next_char === null);
-        $is_bang = ($now_char === '!' && $next_char === '[');
+        $is_null = (null === $now_char || null === $next_char);
+        $is_bang = ('!' === $now_char && '[' === $next_char);
 
         // 飛ばす必要が無い、または飛ばせない場合はfalse
         if ($is_null || $is_bang || mb_ereg('\p{Pe}|\n|\s|[?!？！]', $next_char)) {
@@ -60,7 +60,8 @@ class YakumonoParser implements InlineParserInterface, ConfigurationAwareInterfa
         }
 
         $cursor->advance();
-        $inline_context->getContainer()->appendChild(new Text($now_char . '　'));
+        $inline_context->getContainer()->appendChild(new Text($now_char.'　'));
+
         return true;
     }
 }

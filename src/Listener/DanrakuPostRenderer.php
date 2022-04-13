@@ -45,12 +45,11 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
     private $config;
 
     /**
-     * 基本形 '^<(p|(p .*?))>(?!<img (.*?))'
+     * 基本形 '^<(p|(p .*?))>(?!<img (.*?))'.
      * */
     private function setPattern(): string
     {
-
-        $basic_pattern = self::TOP . self::BASIC . self::KINSOKU_KAKKO;
+        $basic_pattern = self::TOP.self::BASIC.self::KINSOKU_KAKKO;
 
         // 以下、設定
         if ($this->config->get('danraku/ignore_alphabet')) {
@@ -60,14 +59,13 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
             $basic_pattern .= self::KINSOKU_DASH;
         }
 
-        return $basic_pattern . self::BOTTOM;
+        return $basic_pattern.self::BOTTOM;
     }
 
     public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }
-
 
     public function postRender(DocumentRenderedEvent $event)
     {
@@ -87,52 +85,51 @@ class DanrakuPostRenderer implements ConfigurationAwareInterface
         $dash_flag = false;
 
         // バッファ
-        $replaced = "";
+        $replaced = '';
 
         // 置換したコードをバッファに追加
         foreach ($html_array as $html) {
-
             // 脚注があったときにはfootnote_flagを立てる
-            if ($ignore_footnote && !$footnote_flag && (mb_strpos($html, self::FOOT_NOTE_BEGIN) !== false)) {
+            if ($ignore_footnote && !$footnote_flag && (false !== mb_strpos($html, self::FOOT_NOTE_BEGIN))) {
                 $footnote_flag = true;
             }
 
             // 行頭にダッシュ記号があったときにはdash_flagを立てる
-            if ($ignore_dash && (mb_ereg(self::TOP . '((\\\)\p{Pd})', $html))) {
+            if ($ignore_dash && (mb_ereg(self::TOP.'((\\\)\p{Pd})', $html))) {
                 $dash_flag = true;
             }
 
             // 既に字下げ済みの行は処理を飛ばす
-            if (mb_strpos($html, self::TOP . '　') !== false) {
-                $replaced .= $html . "\n";
+            if (false !== mb_strpos($html, self::TOP.'　')) {
+                $replaced .= $html."\n";
+
                 continue;
             }
 
             // ignoreしない記号のエスケープ処理を行う
-            if (mb_ereg(self::TOP . '(?=\\\)', $html, $match)) {
-
+            if (mb_ereg(self::TOP.'(?=\\\)', $html, $match)) {
                 $escape_footnote = (!$ignore_footnote && $footnote_flag);
                 $escape_dash = (!$ignore_dash && $dash_flag);
                 $escape_other = (!$footnote_flag && !$dash_flag);
 
                 if ($escape_other || $escape_dash || $escape_footnote) {
-                    $replaced .= mb_ereg_replace($match[0] . '(\\\)', $match[0], $html);
+                    $replaced .= mb_ereg_replace($match[0].'(\\\)', $match[0], $html);
                     $replaced .= "\n";
+
                     continue;
                 }
             }
 
-
             // 基本的な置換。
             if (!$footnote_flag && mb_ereg($pattern, $html, $match)) {
                 // $replaced .= mb_ereg_replace($pattern, $match[0] . "　", $html);
-                $replaced .= str_replace($match[0], $match[0] . "　", $html);
+                $replaced .= str_replace($match[0], $match[0].'　', $html);
             } else {
                 $replaced .= $html;
             }
 
             // 脚注の終わりが行内にあったらfootnote_flagを倒す
-            if ($footnote_flag && (mb_strpos($html, self::FOOT_NOTE_END) !== false)) {
+            if ($footnote_flag && (false !== mb_strpos($html, self::FOOT_NOTE_END))) {
                 $footnote_flag = false;
             }
 
