@@ -6,6 +6,7 @@
 
 # Notice
 Due to the ID change, I decided to recreate this repository. This repository will no longer be updated. Please refer to [this](https://github.com/JanStanleyWatt/danraku) repository instead.
+
 ID変更に伴い、このリポジトリを新しく作り直すことにしました。以後、このリポジトリは更新されません。代わりに、[こちら](https://github.com/JanStanleyWatt/danraku)のリポジトリをご参照ください。
 
 
