@@ -4,6 +4,11 @@
 ![Packagist Downloads](https://img.shields.io/packagist/dt/whojinn/danraku)
 ![GitHub](https://img.shields.io/github/license/whojinn/danraku)
 
+# Notice
+Due to the ID change, I decided to recreate this repository. This repository will no longer be updated. Please refer to [this](https://github.com/JanStanleyWatt/danraku) repository instead.
+ID変更に伴い、このリポジトリを新しく作り直すことにしました。以後、このリポジトリは更新されません。代わりに、[こちら](https://github.com/JanStanleyWatt/danraku)のリポジトリをご参照ください。
+
+
 # Danraku
 自動で段落の頭に全角スペースを入れてくれたり、区切り約物の直後に全角スペースを入れてくれる[League/CommonMark](https://commonmark.thephpleague.com/)拡張機能。
 
